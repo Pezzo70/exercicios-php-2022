@@ -19,7 +19,19 @@ class ComputerPlayerCountry extends BaseCountry {
    *   The country that will be attacked, NULL if none will be.
    */
   public function chooseToAttack(): ?CountryInterface {
-    // @TODO
+    /*O random_int(0,3) garante 75% de chance de atacar, isso da mais dinamica para CPU
+    **ja que havera mais ataques por rodada.
+    */
+   if($this->getNumberOfTroops() > 1 && rand(0,3) != 0){
+     $neighborToAttack = $this->neighbors[array_rand($this->neighbors)];
+      while($neighborToAttack->isConquered()){
+        $neighborToAttack = $neighborToAttack->getConqueror();
+      }
+      if($neighborToAttack != $this){
+    return $neighborToAttack;
+    }
+   }
+    return null;
   }
 
 }

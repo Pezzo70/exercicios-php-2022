@@ -27,14 +27,9 @@ class CountryList {
     ];
 
     $countries = [];
-    foreach (array_keys($map) as $index => $name) {
-      if ($index) {
+    foreach (array_keys($map) as $name) {
         $countries[$name] = new ComputerPlayerCountry($name);
         readline_add_history($name);
-      }
-      else {
-        $countries[$name] = new HumanPlayerCountry($name);
-      }
     }
 
     foreach ($map as $name => $neighborNames) {

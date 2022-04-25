@@ -11,35 +11,40 @@ use Galoa\ExerciciosPhp2022\War\GamePlay\Country\CountryInterface;
 
 
 
-class Battlefield implements BattlefieldInterface {
-   
-    public function rollDice(CountryInterface $country, bool $isAttacking): array{
-        $diceValues = array();
-        $isAttacking ? $troops = $country -> getNumberOfTroops() - 1 : $troops = $country -> getNumberOfTroops();
-        for($i = 0; $i <= $troops; $i++){
-              $diceValues[] = rand()&6;
+class Battlefield implements BattlefieldInterface
+{
+
+    public function rollDice(CountryInterface $country, bool $isAttacking): array
+    {
+        $isAttacking ? $troopsInCountry = $country->getNumberOfTroops() - 1 : $troopsInCountry = $country->getNumberOfTroops();
+        $diceValues = [];
+        for ($i = 0; $i < $troopsInCountry; $i++) {
+            $diceValues[] = rand(1, 6);
         }
-        sort($diceValues);
-        return $diceValues[];
+        rsort($diceValues);
+        return $diceValues;
     }
-    
-    public function computeBattle(CountryInterface $attackingCountry, array $attackingDice, CountryInterface $defendingCountry, array $defendingDice): void{
-        sizeof($attackingDice) >= sizeof($defendingDice) ? $isAttackingTroopsBiggerOrEqual = true : $isAttackingTroopsBiggerOrEqual = false;
-        if($isAttackingTroopsBiggerOrEqual){
-            foreach ($attackingDice as $key => $value) {
-                if($attackingDice[$key] > $defendingDice[$key]){
-                   $defendingCountry -> killTroops(1);
-                }else{
-                    $attackingCountry -> killTroops(1);
-                }
-            }
-        }else{
-            foreach ($defendingDice as $key => $value) {
-                if($attackingDice[$key] > $defendingDice[$key]){
-                   $defendingCountry -> killTroops(1);
-                }else{
-                    $attackingCountry -> killTroops(1);
-                }
+
+    public function computeBattle(
+        CountryInterface $attackingCountry,
+        array $attackingDice,
+        CountryInterface $defendingCountry,
+        array $defendingDice
+    ): void {
+        $troopsToAttack = $attackingDice > $defendingDice ? sizeof($defendingDice) : sizeof($attackingDice);
+        $attackingWins = 0;
+        $defendingWins = 0;
+
+        while ($troopsToAttack != 0) {
+            if ($attackingDice[$troopsToAttack - 1] > $defendingDice[$troopsToAttack - 1])
+                ++$attackingWins;
+            else
+                ++$defendingWins;
+            --$troopsToAttack;
         }
+        print "\nO ataque perdeu " . $defendingWins . " tropas, e a defesa perdeu " . $attackingWins . " tropas nessa batalha\n";
+
+        $attackingCountry->killTroops($defendingWins);
+        $defendingCountry->killTroops($attackingWins);
     }
 }

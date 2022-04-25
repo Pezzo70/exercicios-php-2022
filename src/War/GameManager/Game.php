@@ -11,7 +11,6 @@ use Galoa\ExerciciosPhp2022\War\GamePlay\Country\HumanPlayerCountry;
  * Defines a Game, it holds the players and interacts with the UI.
  */
 class Game {
-
   /**
    * The battlefield.
    *
@@ -89,7 +88,9 @@ class Game {
    * Plays one round.
    */
   protected function playRound(): void {
+    $i2 = 0;
     foreach ($this->getUnconqueredCountries() as $attackingCountry) {
+      $i2++;
       print "----- Vez de " . $attackingCountry->getName() . "\n";
 
       $defendingCountry = NULL;
@@ -130,7 +131,11 @@ class Game {
           print "  " . $defendingCountry->getName() . " conseguiu se defender!\n";
         }
       }
-      sleep(1);
+      sleep(0);
+    }
+    //At the end of the round, add the troops to the remaining countries
+    foreach ($this->getUnconqueredCountries() as $CountriesInTheGame) {
+      $CountriesInTheGame->addTroopsPerRound(3);
     }
   }
 

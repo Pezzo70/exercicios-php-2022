@@ -84,4 +84,24 @@ interface CountryInterface {
    */
   public function killTroops(int $killedTroops): void;
 
+   /**
+   * Increases the number of troops in this country by a number each round.
+   *
+   * @param int $troopsToBeAdded
+   *   The number of troops added in battle in the round.
+   */
+  public function addTroopsPerRound(int $troopsToBeAdded) : void;
+
+  /**
+   * Set the country who had conquered this country
+   * @param \Galoa\ExerciciosPhp2022\War\GamePlay\Country\CountryInterface $conquerorCountry
+   *  The country who had just conquered this country.
+   */
+  public function setConqueror(CountryInterface $conquerorCountry): void;
+  /**
+   * Get the country who had conquered this country
+   * @return \Galoa\ExerciciosPhp2022\War\GamePlay\Country\CountryInterface
+   *  The country who has conquered this country.
+   */
+  public function getConqueror(): CountryInterface;
 }
